@@ -54,11 +54,13 @@ public class MoveSuperStructure extends Command {
   public void execute() {
     Wrist.get().goToPosition(position);
 
+    //Calculates the distance betweeen the current position and the desired state(error distance) and see if it is less than a certain value
+    //In theory, I should of set "< 1" to "== 0" because shouldn't the distance be 0 which confirms it's position?
     if(Math.abs(Wrist.get().getPosition()-position.wristRot.in(Rotations)) < 1){
       Arm.get().goToPosition(position);
       Elevator.get().goToPosition(position);
     }
-    
+
     if ((!requirePress || HumanControls.OperatorPanel2025.releaseCoral.getAsBoolean()) && Math.abs(Wrist.get().getPosition() - position.wristRot.in(Units.Rotation)) < .5 && Math.abs(Arm.get().getPosition() - position.armRot.in(Units.Rotation)) < .5 && Math.abs(Elevator.get().getPosition() - position.height) < .5 )
       EndEffector.get().run(runRollers);
     else   
